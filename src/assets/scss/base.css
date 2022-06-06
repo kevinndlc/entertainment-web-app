@@ -65,6 +65,10 @@ svg {
   display: block;
 }
 
+ul {
+  list-style: none;
+}
+
 button,
 input {
   font: inherit;
