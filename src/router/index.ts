@@ -1,3 +1,4 @@
+import { initialFetchVideos } from '@/stores/videoStore';
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
@@ -7,6 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      beforeEnter: [initialFetchVideos],
       component: HomeView,
     },
     {

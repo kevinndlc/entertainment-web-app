@@ -11,7 +11,8 @@ import Navbar from './components/Navbar.vue';
 </template>
 
 <style>
-@import '@/assets/scss/base.css';
+@import '@/assets/scss/base.scss';
+@import '@/assets/scss/utilities.scss';
 
 .main {
   padding: 1.5rem 1rem 4rem;
