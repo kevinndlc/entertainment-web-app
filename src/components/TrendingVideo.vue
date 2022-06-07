@@ -1,18 +1,33 @@
 <script setup lang="ts">
 import type { VideoIntf } from '@/interfaces';
-import { onMounted, ref } from 'vue';
 import MoviesIcon from './Icons/MoviesIcon.vue';
 import TvIcon from './Icons/TvIcon.vue';
 
-import image from '@/assets/images/thumbnails/beyond-earth/trending/small.jpg';
+import BookmarkFullIcon from './Icons/BookmarkFullIcon.vue';
+import BookmarkEmptyIcon from './Icons/BookmarkEmptyIcon.vue';
+import { computed } from 'vue';
+import { useVideos } from '@/stores/videoStore';
 
 const props = defineProps<{
   video: VideoIntf;
 }>();
+
+const videoStore = useVideos();
+
+function toggleBookmark() {
+  videoStore.toggleBookmark(props.video)
+}
+
+const images = import.meta.globEager('@/assets/images/thumbnails/*/trending/small.jpg');
+const backgroundImageInlineStyle = computed(() => `background-image: url(${images[props.video.thumbnail.trending!.small.replace('@', '..')].default})`)
 </script>
 
 <template>
-  <div class="video" :style="{ backgroundImage: 'url(' + image + ')' }">
+  <div class="video" :style="backgroundImageInlineStyle">
+    <button class="video__bookmark-btn" @click="toggleBookmark">
+      <BookmarkFullIcon v-if="video.isBookmarked" />
+      <BookmarkEmptyIcon v-else />
+    </button>
     <div class="video__content">
       <div class="video__info">
         <div class="video__year">{{ video.year }}</div>
@@ -30,13 +45,39 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
+@use '@/assets/scss/mixins';
+
 .video {
   height: 100%;
-  // background-image: url('@/assets/images/thumbnails/beyond-earth/trending/small.jpg');
-  background-size: contain;
+  background-size: cover;
+  background-position: center;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  position: relative;
+
+  &__bookmark-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: none;
+    background-color: hsl(223deg 30% 9% / 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include mixins.md {
+      top: 1rem;
+      right: 1.5rem;
+    }
+
+    svg {
+      height: 0.875rem;
+    }
+  }
 
   &__content {
     background: linear-gradient(
@@ -45,6 +86,10 @@ const props = defineProps<{
       rgba(0, 0, 0, 0.75) 100%
     );
     padding: 1rem;
+
+    @include mixins.md {
+      padding: 1.5rem;
+    }
 
     .dot {
       width: 3px;
@@ -60,6 +105,10 @@ const props = defineProps<{
     opacity: 0.75;
     margin-bottom: 0.25rem;
     font-size: 0.75rem;
+
+    @include mixins.md {
+      font-size: calc(15rem / 16);
+    }
   }
   &__category {
     display: flex;
@@ -72,6 +121,10 @@ const props = defineProps<{
   }
   &__title {
     font-size: calc(15rem / 16);
+
+    @include mixins.md {
+      font-size: 1.5rem;
+    }
   }
 }
 </style>

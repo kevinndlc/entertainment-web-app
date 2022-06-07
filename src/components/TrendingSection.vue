@@ -20,27 +20,33 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
+  @use '@/assets/scss/mixins';
+
   .trending {
+    padding-bottom: 1.5rem;
+
+    @include mixins.md {
+      padding-bottom: 2.5rem;
+    }
+
     &__title {
       font-size: 1.25rem;
       margin-bottom: 1rem;
       letter-spacing: -0.3px;
+
+      @include mixins.md {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.5px;
+      }
     }
 
     &__videos {
       display: flex;
       gap: 1rem;
-      overflow-x: scroll;
-      padding-bottom: 1rem;
 
-      &::-webkit-scrollbar {
-        height: 5px;
-        border-radius: 10px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background-color: var(--clr-accent);
-        border-radius: 10px;
+      @include mixins.md {
+        gap: 2.5rem;
       }
     }
 
@@ -49,6 +55,11 @@ defineProps<{
       height: 8.75rem;
       border-radius: 0.5rem 0.5rem 0 0;
       overflow: hidden;
+
+      @include mixins.md {
+        flex-basis: 29.375rem;
+        height: 14.375rem;
+      }
     }
 
     

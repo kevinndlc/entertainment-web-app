@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router';
 import HomeIcon from './Icons/HomeIcon.vue';
 import MoviesIcon from './Icons/MoviesIcon.vue';
 import TvIcon from './Icons/TvIcon.vue';
-import BookmarkIcon from './Icons/BookmarkIcon.vue';
+import BookmarkIcon from './Icons/BookmarkFullIcon.vue';
 </script>
 
 <template>
@@ -34,6 +34,7 @@ import BookmarkIcon from './Icons/BookmarkIcon.vue';
 </template>
 
 <style scoped lang="scss">
+  @use '@/assets/scss/mixins';
   .navbar {
     display: flex;
     justify-content: space-between;
@@ -42,13 +43,29 @@ import BookmarkIcon from './Icons/BookmarkIcon.vue';
     padding-inline: 1rem;
     background-color: var(--clr-foreground);
 
+    @include mixins.md {
+      height: 72px;
+      margin: 1.5rem;
+      margin-bottom: 0;
+      padding-inline: 1.5rem; 
+      border-radius: 10px;
+    }
+
     &__logo {
-      height: 1.25rem;
+      width: 25px;
+
+      @include mixins.md {
+        width: 32px;
+      }
     }
 
     &__primary {
       display: flex;
       gap: 1.5rem;
+
+      @include mixins.md {
+        gap: 2rem;
+      }
       
       a:not(.router-link-active) {
         color: var(--clr-grayish-blue)
@@ -56,6 +73,10 @@ import BookmarkIcon from './Icons/BookmarkIcon.vue';
 
       svg {
         height: 1rem;
+
+        @include mixins.md {
+          height: 1.25rem;
+        }
       }
     }
 
@@ -65,6 +86,10 @@ import BookmarkIcon from './Icons/BookmarkIcon.vue';
       border-radius: 50%;
       width: 1.5rem;
       aspect-ratio: 1;
+
+      @include mixins.md {
+        width: 2rem;
+      }
 
       img {
         height: 100%;
