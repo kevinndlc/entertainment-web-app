@@ -10,25 +10,31 @@ import BookmarkIcon from './Icons/BookmarkFullIcon.vue';
   <nav class="navbar">
     <RouterLink to="/">
       <img src="@/assets/images/logo.svg" class="navbar__logo" alt="Logo">
+      <h1 class="sr-only">Logo</h1>
     </RouterLink>
 
     <div class="navbar__primary">
       <RouterLink to="/">
         <HomeIcon />
+        <span class="sr-only">Home</span>
       </RouterLink>
       <RouterLink to="/movies">
         <MoviesIcon />
+        <span class="sr-only">Movies</span>
       </RouterLink>
       <RouterLink to="/series">
         <TvIcon />
+        <span class="sr-only">TV Series</span>
       </RouterLink>
       <RouterLink to="/bookmarks">
         <BookmarkIcon />
+        <span class="sr-only">Bookmarks</span>
       </RouterLink>
     </div>
 
     <RouterLink to="/" class="navbar__avatar-container">
       <img src="@/assets/images/image-avatar.png" alt="User Profile">
+      <span class="sr-only">Profile</span>
     </RouterLink>
   </nav>
 </template>

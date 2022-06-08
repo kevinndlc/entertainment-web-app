@@ -46,7 +46,7 @@ function toggleBookmark() {
 
 <template>
   <div class="video" :style="backgroundImageInlineStyle">
-    <button class="video__bookmark-btn" @click="toggleBookmark">
+    <button class="video__bookmark-btn" @click="toggleBookmark" aria-label="Toggle this bookmark">
       <BookmarkFullIcon v-if="video.isBookmarked" />
       <BookmarkEmptyIcon v-else />
     </button>
