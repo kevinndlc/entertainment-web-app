@@ -10,7 +10,7 @@ import BookmarkIcon from './Icons/BookmarkFullIcon.vue';
   <nav class="navbar">
     <RouterLink to="/">
       <img src="@/assets/images/logo.svg" class="navbar__logo" alt="Logo">
-      <h1 class="sr-only">Logo</h1>
+      <h1 class="sr-only">Entertainment Web App</h1>
     </RouterLink>
 
     <div class="navbar__primary">
