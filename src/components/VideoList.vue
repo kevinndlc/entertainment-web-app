@@ -32,6 +32,10 @@ defineProps<{
       font-size: 2rem;
       letter-spacing: -0.5px;
     }
+
+    @include mixins.lg {
+      margin-bottom: 2rem;
+    }
   }
   &__list {
     --column-count: 2;
@@ -43,6 +47,20 @@ defineProps<{
       --column-count: 3;
       row-gap: 1.5rem;
       column-gap: 1.875rem;
+    }
+
+    @include mixins.lg {
+      --column-count: 4;
+      row-gap: 2rem;
+      column-gap: 2.5rem;
+    }
+
+    @include mixins.xl {
+      --column-count: 5;
+    }
+
+    @include mixins.xxl {
+      --column-count: 6;
     }
   }
 }

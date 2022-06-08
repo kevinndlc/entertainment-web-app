@@ -26,5 +26,8 @@ const videoStore = useVideos();
     @include mixins.md {
       margin-top: 1.125rem;
     }
+    @include mixins.lg {
+      margin-top: 1.25rem;
+    }
   }
 </style>

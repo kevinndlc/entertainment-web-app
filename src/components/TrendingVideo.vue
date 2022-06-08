@@ -7,6 +7,8 @@ import BookmarkFullIcon from './Icons/BookmarkFullIcon.vue';
 import BookmarkEmptyIcon from './Icons/BookmarkEmptyIcon.vue';
 import { computed } from 'vue';
 import { useVideos } from '@/stores/videoStore';
+import { useBreakpoints } from '@vueuse/core';
+import PlayIcon from './Icons/PlayIcon.vue';
 
 const props = defineProps<{
   video: VideoIntf;
@@ -14,12 +16,32 @@ const props = defineProps<{
 
 const videoStore = useVideos();
 
-function toggleBookmark() {
-  videoStore.toggleBookmark(props.video)
-}
+const breakpoints = useBreakpoints({
+  large: 720,
+});
+const isLarge = breakpoints.greater('large');
 
-const images = import.meta.globEager('@/assets/images/thumbnails/*/trending/small.jpg');
-const backgroundImageInlineStyle = computed(() => `background-image: url(${images[props.video.thumbnail.trending!.small.replace('@', '..')].default})`)
+const smallImages = import.meta.globEager(
+  '@/assets/images/thumbnails/*/trending/small.jpg'
+);
+const largeImages = import.meta.globEager(
+  '@/assets/images/thumbnails/*/trending/large.jpg'
+);
+
+const backgroundImageInlineStyle = computed(
+  () =>
+    `background-image: url(${
+      isLarge.value
+        ? largeImages[props.video.thumbnail.trending!.large.replace('@', '..')]
+            .default
+        : smallImages[props.video.thumbnail.trending!.small.replace('@', '..')]
+            .default
+    })`
+);
+
+function toggleBookmark() {
+  videoStore.toggleBookmark(props.video);
+}
 </script>
 
 <template>
@@ -27,6 +49,10 @@ const backgroundImageInlineStyle = computed(() => `background-image: url(${image
     <button class="video__bookmark-btn" @click="toggleBookmark">
       <BookmarkFullIcon v-if="video.isBookmarked" />
       <BookmarkEmptyIcon v-else />
+    </button>
+    <button class="play-btn">
+      <PlayIcon />
+      Play
     </button>
     <div class="video__content">
       <div class="video__info">
@@ -55,6 +81,45 @@ const backgroundImageInlineStyle = computed(() => `background-image: url(${image
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: hsl(0 0% 0% / 0.5);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    gap: 1.25rem;
+    border: none;
+    background-color: hsl(0 0% 100% / 0.25);
+    height: 48px;
+    width: 117px;
+    padding: 9px;
+    border-radius: 100rem;
+    display: none;
+
+    svg {
+      width: 30px;
+      aspect-ratio: 1;
+    }
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  &:hover .play-btn {
+    display: flex;
+  }
 
   &__bookmark-btn {
     position: absolute;
@@ -68,6 +133,13 @@ const backgroundImageInlineStyle = computed(() => `background-image: url(${image
     display: flex;
     align-items: center;
     justify-content: center;
+    outline: none;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:where(:focus, :hover) {
+      background-color: var(--clr-white);
+      color: var(--clr-background);
+    }
 
     @include mixins.md {
       top: 1rem;
@@ -82,10 +154,11 @@ const backgroundImageInlineStyle = computed(() => `background-image: url(${image
   &__content {
     background: linear-gradient(
       180deg,
-      rgba(0, 0, 0, 0.0001) 0%,
+      rgba(0, 0, 0, 0) 0%,
       rgba(0, 0, 0, 0.75) 100%
     );
     padding: 1rem;
+    position: relative;
 
     @include mixins.md {
       padding: 1.5rem;

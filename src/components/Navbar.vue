@@ -43,6 +43,15 @@ import BookmarkIcon from './Icons/BookmarkFullIcon.vue';
     padding-inline: 1rem;
     background-color: var(--clr-foreground);
 
+    a {
+      outline: none;
+      transition: transform 0.2s;
+
+      &:where(:focus, :hover) {
+        transform: scale(1.1);
+      }
+    }
+
     @include mixins.md {
       height: 72px;
       margin: 1.5rem;
@@ -51,24 +60,45 @@ import BookmarkIcon from './Icons/BookmarkFullIcon.vue';
       border-radius: 10px;
     }
 
+    @include mixins.lg {
+      height: auto;
+      flex-direction: column;
+      justify-content: start;
+      padding: 0;
+      width: 96px;
+      padding-top: 2.25rem;
+      padding-bottom: 2rem;
+      margin: 0;
+      border-radius: 20px;
+    }
+
     &__logo {
       width: 25px;
 
       @include mixins.md {
         width: 32px;
       }
+
+      @include mixins.lg {
+        margin-bottom: 75px;
+      }
     }
 
-    &__primary {
+    &__primary {    
       display: flex;
       gap: 1.5rem;
 
       @include mixins.md {
         gap: 2rem;
       }
+
+      @include mixins.lg {
+        flex-direction: column;
+        gap: 2.5rem 
+      }
       
       a:not(.router-link-active) {
-        color: var(--clr-grayish-blue)
+        color: var(--clr-grayish-blue);
       }
 
       svg {
@@ -91,8 +121,16 @@ import BookmarkIcon from './Icons/BookmarkFullIcon.vue';
         width: 2rem;
       }
 
+      @include mixins.lg {
+        margin-top: auto;
+        width: 2.5rem;
+      }
+
       img {
         height: 100%;
+        @include mixins.lg {
+          width: 100%;
+        }
       }
     }
   }

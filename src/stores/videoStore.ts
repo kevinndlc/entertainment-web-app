@@ -87,3 +87,9 @@ export function initialFetchVideos() {
     videoStore.isLoaded = true;
   }
 }
+
+export function resetSearch() {
+  const videoStore = useVideos();
+
+  videoStore.updateSearch('');
+}

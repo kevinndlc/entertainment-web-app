@@ -44,9 +44,24 @@ defineProps<{
     &__videos {
       display: flex;
       gap: 1rem;
+      overflow: auto;
+      overscroll-behavior-inline: contain;
+      margin-inline: -1rem;
+      padding-inline: 1rem;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
       @include mixins.md {
         gap: 2.5rem;
+        margin-inline: -1.5rem;
+        padding-inline: 1.5rem;
+      }
+
+      @include mixins.lg {
+        margin-inline: -2.25rem;
+        padding-inline: 2.25rem;
       }
     }
 

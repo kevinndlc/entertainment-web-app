@@ -7,25 +7,48 @@ import BookmarkFullIcon from './Icons/BookmarkFullIcon.vue';
 import BookmarkEmptyIcon from './Icons/BookmarkEmptyIcon.vue';
 import { computed } from 'vue';
 import { useVideos } from '@/stores/videoStore';
+import { useBreakpoints } from '@vueuse/core';
+import PlayIcon from './Icons/PlayIcon.vue';
 
 const props = defineProps<{
   video: VideoIntf;
 }>();
 
-const images = import.meta.globEager(
+const breakpoints = useBreakpoints({
+  medium: 720,
+  large: 1200,
+});
+const isMedium = breakpoints.between('medium', 'large');
+const isLarge = breakpoints.greater('large');
+
+const smallImages = import.meta.globEager(
   '@/assets/images/thumbnails/*/regular/small.jpg'
 );
+const mediumImages = import.meta.globEager(
+  '@/assets/images/thumbnails/*/regular/medium.jpg'
+);
+const largeImages = import.meta.globEager(
+  '@/assets/images/thumbnails/*/regular/large.jpg'
+);
+
 const backgroundImageInlineStyle = computed(
   () =>
     `background-image: url(${
-      images[props.video.thumbnail.regular.small.replace('@', '..')].default
+      isLarge.value
+        ? largeImages[props.video.thumbnail.regular.large.replace('@', '..')]
+            .default
+        : isMedium.value
+        ? mediumImages[props.video.thumbnail.regular.medium!.replace('@', '..')]
+            .default
+        : smallImages[props.video.thumbnail.regular.small.replace('@', '..')]
+            .default
     })`
 );
 
 const videoStore = useVideos();
 
 function toggleBookmark() {
-  videoStore.toggleBookmark(props.video)
+  videoStore.toggleBookmark(props.video);
 }
 </script>
 
@@ -35,6 +58,10 @@ function toggleBookmark() {
       <button class="video__bookmark-btn" @click="toggleBookmark">
         <BookmarkFullIcon v-if="video.isBookmarked" />
         <BookmarkEmptyIcon v-else />
+      </button>
+      <button class="play-btn">
+        <PlayIcon />
+        Play
       </button>
     </div>
     <div class="video__info">
@@ -61,9 +88,52 @@ function toggleBookmark() {
     background-position: center;
     border-radius: 0.5rem;
     margin-bottom: 0.5em;
+    cursor: pointer;
 
     @include mixins.md {
       height: 140px;
+    }
+
+    @include mixins.lg {
+      height: 174px;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0 0 0 / 0.5);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+
+    &:hover .play-btn {
+      display: flex;
+    }
+
+    .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      align-items: center;
+      gap: 1.25rem;
+      border: none;
+      background-color: hsl(0 0% 100% / 0.25);
+      height: 48px;
+      width: 117px;
+      padding: 9px;
+      border-radius: 100rem;
+      display: none;
+
+      svg {
+        width: 30px;
+        aspect-ratio: 1;
+      }
     }
   }
 
@@ -79,6 +149,13 @@ function toggleBookmark() {
     display: flex;
     align-items: center;
     justify-content: center;
+    outline: none;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:where(:focus, :hover) {
+      background-color: var(--clr-white);
+      color: var(--clr-background);
+    }
 
     @include mixins.md {
       top: 1rem;

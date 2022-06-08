@@ -9,6 +9,9 @@ const videoStore = useVideos();
 <template>
   <SearchBar placeholder="Search for bookmarked shows"/>
   <div class="bookmarked-videos" v-if="!videoStore.search">
+    <h2 v-if="videoStore.filteredBookmarkedVideos.length === 0" class="no-bookmark">
+      You currenly have no bookmark.
+    </h2>
     <VideoList v-if="videoStore.bookmarkedMovies.length > 0" class="bookmarked-movies" title="Bookmarked Movies" :videos="videoStore.bookmarkedMovies"/>
     <VideoList v-if="videoStore.bookmarkedSeries.length > 0" class="bookmarked-tv-series" title="Bookmarked TV Series" :videos="videoStore.bookmarkedSeries"/>
   </div>
@@ -24,10 +27,21 @@ const videoStore = useVideos();
     @include mixins.md {
       margin-top: 1.125rem;
     }
+    @include mixins.lg {
+      margin-top: 1.25rem;
+    }
   }
   .bookmarked-videos {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  .no-bookmark {
+    font-size: 1.25rem;
+
+    @include mixins.md {
+      font-size: 2rem;
+    }
   }
 </style>
