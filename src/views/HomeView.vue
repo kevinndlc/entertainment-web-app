@@ -11,7 +11,7 @@ const videoStore = useVideos();
   <SearchBar placeholder="Search for movies or TV series"/>
   <template v-if="!videoStore.search">
     <TrendingSection :videos="videoStore.trendingVideos" />
-    <VideoList title="Recommanded for you" :videos="videoStore.recommandedVideos"/>
+    <VideoList title="Recommended for you" :videos="videoStore.recommandedVideos"/>
   </template>
   <VideoList v-else class="results" :title="`Found ${videoStore.filteredVideos.length} results for '${videoStore.search}'`" :videos="videoStore.filteredVideos"/>
 </template>
